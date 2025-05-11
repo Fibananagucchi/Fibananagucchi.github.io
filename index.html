@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RIASEC Test - Career Interests</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>RIASEC Test</h1>
+        <p>Evaluate how much each statement describes your interests, on a scale from 
+            <br>1 (Absolutely disagree) to 5 (Absolutely agree).</p>
+        <div id="pages">
+        </div>
+
+        <div id="results" class="result">
+        </div>
+    </div>
+
+    <script>
+        const categories = ["Realistic", "Investigative", "Artistic", "Social", "Enterprising", "Conventional"];
+        const questions = [
+            ...["I enjoy working with my hands.", "I like fixing things.", "I prefer physical tasks over desk jobs.", "I enjoy using tools and machinery.", "I would rather be outdoors than in an office.", "I’m interested in how machines work.", "I enjoy building or assembling things.", "I like practical problem-solving.", "I would enjoy working in construction or mechanics.", "I’m comfortable doing physical labor."], // Realistic (10)
+            ...["I enjoy solving complex problems.", "I like to figure out how things work.", "I’m curious about science and discovery.", "I enjoy working independently on research.", "I like analyzing data.", "I’m drawn to technology and innovation.", "I enjoy asking questions and seeking answers.", "I would enjoy working in a lab.", "I like reading about science or math.", "I enjoy figuring out puzzles."], // Investigative (10)
+            ...["I like expressing myself creatively.", "I enjoy drawing, writing, or performing.", "I prefer unstructured environments.", "I like working on my own projects.", "I enjoy creating art or music.", "I like experimenting with ideas and styles.", "I enjoy design and aesthetics.", "I prefer freedom over rules.", "I like visual storytelling.", "I enjoy brainstorming original ideas."], // Artistic (10)
+            ...["I enjoy helping people.", "I’m a good listener.", "I like teaching or guiding others.", "I enjoy volunteering or community work.", "I prefer working with others.", "I enjoy discussing ideas with others.", "I care about people's feelings.", "I like making a difference in people’s lives.", "I enjoy group activities.", "I’m comfortable speaking in front of others."], // Social (10)
+            ...["I enjoy leading groups or projects.", "I like persuading people.", "I enjoy competition.", "I’m interested in business and marketing.", "I like setting and reaching goals.", "I prefer being in charge.", "I’m comfortable taking risks.", "I enjoy selling ideas or products.", "I like promoting things I believe in.", "I enjoy planning big projects."], // Enterprising (10)
+            ...["I enjoy organizing and sorting things.", "I prefer routines and structure.", "I like working with data and numbers.", "I enjoy following detailed instructions.", "I’m good at keeping things in order.", "I like planning and scheduling.", "I prefer predictable environments.", "I enjoy completing tasks accurately.", "I value stability and reliability.", "I enjoy office and clerical work."] // Conventional (10)
+        ];
+
+        const questionsPerPage = 10;
+        const totalQuestionPages = questions.length / questionsPerPage;
+        let currentPage = 0;
+
+        const pagesContainer = document.getElementById("pages");
+        const resultsContainer = document.getElementById("results");
+
+        function createPages() {
+            // Start Page (Page 0)
+            const startPage = document.createElement("div");
+            startPage.className = "page active";
+            startPage.id = "start-page";
+            startPage.innerHTML = `
+                <h2>Welcome to the RIASEC Test</h2>
+                <p>Discover your professional interests and explore matching career paths.</p>
+                <button onclick="nextPage()">Start Test</button>
+                <button onclick="window.location.href='courses.html'" class="secondary-button">View Courses</button>
+            `;
+            pagesContainer.appendChild(startPage);
+
+            // Question Pages (Page 1 to 6)
+            for (let p = 0; p < totalQuestionPages; p++) {
+                const page = document.createElement("div");
+                page.className = "page";
+                page.id = `question-page-${p}`;
+
+                const categoryTitle = document.createElement("h2");
+                categoryTitle.textContent = `${categories[p]} Interests`;
+                page.appendChild(categoryTitle);
+
+                const start = p * questionsPerPage;
+                const end = start + questionsPerPage;
+                const sectionQuestions = questions.slice(start, end);
+
+                sectionQuestions.forEach((q, i) => {
+                    const qIndex = start + i;
+                    const div = document.createElement("div");
+                    div.className = "question";
+
+                    const label = document.createElement("label");
+                    label.innerText = `${qIndex + 1}. ${q}`;
+
+                    const optionsDiv = document.createElement("div");
+                    optionsDiv.className = "question-options";
+
+                    [1, 2, 3, 4, 5].forEach((n) => {
+                        const optionWrapper = document.createElement("div");
+                        optionWrapper.className = "option-wrapper";
+
+                        const input = document.createElement("input");
+                        input.type = "radio";
+                        input.name = `q${qIndex}`;
+                        input.id = `q${qIndex}-${n}`;
+                        input.value = n;
+                        input.required = true;
+
+                        const radioLabel = document.createElement("label");
+                        radioLabel.htmlFor = `q${qIndex}-${n}`;
+                        radioLabel.className = "radio-label";
+                        radioLabel.innerText = n;
+
+                        optionWrapper.appendChild(input);
+                        optionWrapper.appendChild(radioLabel);
+                        optionsDiv.appendChild(optionWrapper);
+                    });
+
+                    div.appendChild(label);
+                    div.appendChild(optionsDiv);
+                    page.appendChild(div);
+                });
+
+                const btn = document.createElement("button");
+                btn.textContent = p === totalQuestionPages - 1 ? "See Results" : "Next Page";
+                btn.onclick = p === totalQuestionPages - 1 ? showResults : validateAndNextPage;
+                page.appendChild(btn);
+
+                pagesContainer.appendChild(page);
+            }
+        }
+
+        function validateAndNextPage() {
+            if (currentPage >= 1 && currentPage <= totalQuestionPages) {
+                const currentQuestionPage = document.getElementById(`question-page-${currentPage - 1}`);
+                const radios = currentQuestionPage.querySelectorAll('input[type="radio"]');
+                const questionCount = questionsPerPage;
+                let answeredCount = 0;
+
+                for (let i = 0; i < radios.length; i += 5) {
+                    if (radios[i].checked || radios[i + 1].checked || radios[i + 2].checked || radios[i + 3].checked || radios[i + 4].checked) {
+                        answeredCount++;
+                    }
+                }
+
+                // if (answeredCount < questionCount) {
+                //     alert("Please answer all questions on this page before proceeding.");
+                //     return;
+                // }
+            }
+            nextPage();
+        }
+
+        function nextPage() {
+            const pages = document.querySelectorAll(".page");
+
+            if (currentPage < pages.length) {
+                pages[currentPage].classList.remove("active");
+            }
+
+            currentPage++;
+
+            if (currentPage < pages.length) {
+                pages[currentPage].classList.add("active");
+                document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function showResults() {
+            const currentQuestionPage = document.getElementById(`question-page-${totalQuestionPages - 1}`);
+            const radios = currentQuestionPage.querySelectorAll('input[type="radio"]');
+            const questionCount = questionsPerPage;
+            let answeredCount = 0;
+
+            for (let i = 0; i < radios.length; i += 5) {
+                if (radios[i].checked || radios[i + 1].checked || radios[i + 2].checked || radios[i + 3].checked || radios[i + 4].checked) {
+                    answeredCount++;
+                }
+            }
+
+            // if (answeredCount < questionCount) {
+            //     alert("Please answer all questions on this page before seeing results.");
+            //     return;
+            // }
+
+            const scores = [0, 0, 0, 0, 0, 0];
+            for (let i = 0; i < questions.length; i++) {
+                const radios = document.getElementsByName(`q${i}`);
+                radios.forEach(radio => {
+                    if (radio.checked) {
+                        const val = parseInt(radio.value);
+                        const categoryIndex = Math.floor(i / questionsPerPage);
+                        scores[categoryIndex] += val;
+                    }
+                });
+            }
+
+            pagesContainer.classList.add('hidden');
+            resultsContainer.innerHTML = '';
+
+            const sorted = [...scores].map((val, idx) => ({ type: categories[idx], val })).sort((a, b) => b.val - a.val);
+            const top3 = sorted.slice(0, 3);
+            const code = top3.map((x) => x.type[0]).join("");
+
+            resultsContainer.innerHTML = `
+                <div class="result-card">
+                    <h2>Your RIASEC Code: <span class="result-code">${code}</span></h2>
+                    <p><strong>Your Dominant Interest Types (in descending order of scores):</strong></p>
+                    <ul>
+                        ${top3.map((x) => `<li><strong>${x.type}:</strong> ${x.val} points</li>`).join("")}
+                    </ul>
+                    <p><strong>Potential Career Directions Based on Your Code:</strong></p>
+                    <ul>
+                        ${top3.map((x) => getCareersHtml(x.type)).join("")}
+                    </ul>
+                </div>
+                <div class="course-links-section">
+                    <h3>Explore Free Courses Related to Your Interests:</h3>
+                    <ul>
+                        ${getCourseLinksHtml(top3.map(item => item.type))}
+                    </ul>
+                </div>
+                <div class="job-vacancies-section">
+                    <h3>Explore Job Vacancies Related to Your Interests:</h3>
+                    <ul>
+                        ${getJobVacanciesHtml(top3.map(item => item.type))}
+                    </ul>
+                    <p style="text-align: center; font-size: 0.9em; color: var(--secondary-gray); margin-top: 20px;">These are example job listings. A real application would provide current and relevant vacancies.</p>
+                </div>
+                <div class="registration-form">
+                    <h3>Get Your Detailed Report by Email</h3>
+                    <p>Enter your email address below to receive a personalized report with your full score breakdown and more career/course suggestions directly to your inbox.</p>
+                    <label for="final-user-email">Your Email:</label>
+                    <input type="email" id="final-user-email" name="final-user-email" required>
+                    <button type="button" id="send-results-email-btn">Send Report to Email</button>
+                    <p>Your data will be handled securely. We respect your privacy.</p>
+                </div>
+            `;
+
+            resultsContainer.style.display = "block";
+            resultsContainer.scrollIntoView({ behavior: 'smooth' });
+
+            const sendEmailBtn = document.getElementById('send-results-email-btn');
+            sendEmailBtn.addEventListener('click', () => {
+                const emailToSendTo = document.getElementById('final-user-email').value;
+                if (emailToSendTo) {
+                    console.log("Attempting to send results for email:", emailToSendTo);
+                    console.log("Test results data:", { scores, riasecCode: code, topTypes: top3 });
+                    alert("Email captured and test results are ready. (A backend service is required to actually send the email and save data).");
+                } else {
+                    alert("Please enter your email address.");
+                }
+            });
+        }
+
+        function getCareersHtml(type) {
+            const careers = {
+                "Realistic": "Mechanic, Carpenter, Engineer, Electrician, Farmer, Construction Worker, Pilot, Police Officer",
+                "Investigative": "Scientist, Researcher, Data Analyst, Doctor, Programmer, Biologist, Forensic Scientist, Mathematician",
+                "Artistic": "Artist, Writer, Graphic Designer, Musician, Actor, Photographer, Interior Designer, Architect",
+                "Social": "Teacher, Psychologist, Nurse, Social Worker, Counselor, Coach, Clergy, Physical Therapist",
+                "Enterprising": "Entrepreneur, Lawyer, Manager, Salesperson, Politician, Project Leader, Consultant, Financial Advisor",
+                "Conventional": "Accountant, Office Manager, Financial Analyst, Archivist, Secretary, Data Entry Clerk, Librarian"
+            };
+            return `<li><strong>${type}:</strong> ${careers[type] || 'No examples available'}</li>`;
+        }
+
+        function getCourseLinksHtml(topTypes) {
+            const courseLinks = {
+                "Realistic": [
+                    { text: "Intro to Woodworking (Coursera)", url: "https://www.coursera.org/" },
+                    { text: "Learn Electrical Engineering (edX)", url: "https://www.edx.org/" }
+                ],
+                "Investigative": [
+                    { text: "Python for Data Science (Coursera)", url: "https://www.coursera.org/" },
+                    { text: "Intro to Biology (Khan Academy)", url: "https://www.khanacademy.org/" }
+                ],
+                "Artistic": [
+                    { text: "Graphic Design Specialization (Coursera)", url: "https://www.coursera.org/" },
+                    { text: "Creative Writing (Skillshare)", url: "https://www.skillshare.com/" }
+                ],
+                "Social": [
+                    { text: "Introduction to Psychology (Coursera)", url: "https://www.coursera.org/" },
+                    { text: "Teaching English as a Foreign Language (Coursera)", url: "https://www.coursera.org/" }
+                ],
+                "Enterprising": [
+                    { text: "Business Foundations (Coursera)", url: "https://www.coursera.org/" },
+                    { text: "Digital Marketing (Google Digital Garage)", url: "https://learndigital.withgoogle.com/" }
+                ],
+                "Conventional": [
+                    { text: "Financial Accounting (Coursera)", url: "https://www.coursera.org/" },
+                    { text: "Excel Skills for Business (Coursera)", url: "https://www.coursera.org/" }
+                ]
+            };
+
+            let html = '';
+            topTypes.forEach(type => {
+                if (courseLinks[type]) {
+                    courseLinks[type].forEach(link => {
+                        html += `<li><a href="${link.url}" target="_blank">${link.text}</a></li>`;
+                    });
+                }
+            });
+            return html || '<li>No specific course examples available for your top types.</li>';
+        }
+
+        function getJobVacanciesHtml(topTypes) {
+            const jobVacancies = {
+                "Realistic": [
+                    { text: "Construction Worker (Indeed)", url: "https://www.indeed.com/" },
+                    { text: "Automotive Technician (Monster)", url: "https://www.monster.com/" },
+                    { text: "Electrician Apprentice (LinkedIn)", url: "https://www.linkedin.com/" }
+                ],
+                "Investigative": [
+                    { text: "Data Scientist (Glassdoor)", url: "https://www.glassdoor.com/" },
+                    { text: "Research Analyst (Indeed)", url: "https://www.indeed.com/" },
+                    { text: "Lab Technician (LinkedIn)", url: "https://www.linkedin.com/" }
+                ],
+                "Artistic": [
+                    { text: "Graphic Designer (Dribbble)", url: "https://dribbble.com/" },
+                    { text: "Content Writer (Upwork)", url: "https://www.upwork.com/" },
+                    { text: "Photographer (Freelancer)", url: "https://www.freelancer.com/" }
+                ],
+                "Social": [
+                    { text: "School Counselor (Indeed)", url: "https://www.indeed.com/" },
+                    { text: "Social Worker (Glassdoor)", url: "https://www.glassdoor.com/" },
+                    { text: "Community Health Worker (LinkedIn)", url: "https://www.linkedin.com/" }
+                ],
+                "Enterprising": [
+                    { text: "Sales Manager (Monster)", url: "https://www.monster.com/" },
+                    { text: "Business Consultant (LinkedIn)", url: "https://www.linkedin.com/" },
+                    { text: "Marketing Coordinator (Indeed)", url: "https://www.indeed.com/" }
+                ],
+                "Conventional": [
+                    { text: "Accountant (Glassdoor)", url: "https://www.glassdoor.com/" },
+                    { text: "Administrative Assistant (Indeed)", url: "https://www.indeed.com/" },
+                    { text: "Data Entry Specialist (LinkedIn)", url: "https://www.linkedin.com/" }
+                ]
+            };
+
+            let html = '';
+            topTypes.forEach(type => {
+                if (jobVacancies[type]) {
+                    jobVacancies[type].forEach(job => {
+                        html += `<li><a href="${job.url}" target="_blank">${job.text}</a></li>`;
+                    });
+                }
+            });
+            return html || '<li>No specific job vacancies available for your top types.</li>';
+        }
+
+        createPages();
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RIASEC Test - Courses</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>RIASEC Courses</h1>
+        <p>Browse courses related to different RIASEC interest types to discover learning opportunities.</p>
+
+        <div class="course-links-section">
+            <h2>Explore Courses by Interest Area</h2>
+            <div id="courses">
+            </div>
+        </div>
+
+        <button onclick="window.location.href='index.html'">Back to Start</button>
+    </div>
+
+    <script>
+        const categories = ["Realistic", "Investigative", "Artistic", "Social", "Enterprising", "Conventional"];
+
+        function getAllCoursesHtml() {
+            const courseLinks = {
+                "Realistic": [
+                    { text: "Intro to Woodworking (Coursera)", url: "https://www.coursera.org/" },
+                    { text: "Learn Electrical Engineering (edX)", url: "https://www.edx.org/" }
+                ],
+                "Investigative": [
+                    { text: "Python for Data Science (Coursera)", url: "https://www.coursera.org/" },
+                    { text: "Intro to Biology (Khan Academy)", url: "https://www.khanacademy.org/" }
+                ],
+                "Artistic": [
+                    { text: "Graphic Design Specialization (Coursera)", url: "https://www.coursera.org/" },
+                    { text: "Creative Writing (Skillshare)", url: "https://www.skillshare.com/" }
+                ],
+                "Social": [
+                    { text: "Introduction to Psychology (Coursera)", url: "https://www.coursera.org/" },
+                    { text: "Teaching English as a Foreign Language (Coursera)", url: "https://www.coursera.org/" }
+                ],
+                "Enterprising": [
+                    { text: "Business Foundations (Coursera)", url: "https://www.coursera.org/" },
+                    { text: "Digital Marketing (Google Digital Garage)", url: "https://learndigital.withgoogle.com/" }
+                ],
+                "Conventional": [
+                    { text: "Financial Accounting (Coursera)", url: "https://www.coursera.org/" },
+                    { text: "Excel Skills for Business (Coursera)", url: "https://www.coursera.org/" }
+                ]
+            };
+
+            let html = '';
+            categories.forEach(type => {
+                if (courseLinks[type]) {
+                    html += `<h3>${type} Courses</h3><ul>`;
+                    courseLinks[type].forEach(link => {
+                        html += `<li><a href="${link.url}" target="_blank">${link.text}</a></li>`;
+                    });
+                    html += `</ul>`;
+                }
+            });
+            return html || '<p>No courses available.</p>';
+        }
+
+        document.getElementById("courses").innerHTML = getAllCoursesHtml();
+    </script>
+</body>
+</html>
