@@ -324,7 +324,7 @@ button.secondary-button:hover:not(:disabled) {
     position: relative; /* Для анімації бордера */
 }
 
-#results.result li::before { /* Анімований бордер зліва */
+/* #results.result li::before { /* Анімований бордер зліва */
     content: '';
     position: absolute;
     left: 0;
@@ -335,15 +335,13 @@ button.secondary-button:hover:not(:disabled) {
     border-top-left-radius: var(--border-radius-medium);
     border-bottom-left-radius: var(--border-radius-medium);
     transition: width 0.3s ease-out;
-}
+} */
 
 #results.result li:hover {
-    transform: translateX(8px);
-    border-color: var(--primary-orange);
+    transform: translateX(6px);
+    border-color: #ffa500;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-#results.result li:hover::before {
-    width: 6px; /* Ширина помаранчевої смуги при наведенні */
+    border-width: 1px 1px 1px 6px;
 }
 
 
