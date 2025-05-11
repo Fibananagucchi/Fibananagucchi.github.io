@@ -324,7 +324,7 @@ button.secondary-button:hover:not(:disabled) {
     position: relative; /* Для анімації бордера */
 }
 
-/* #results.result li::before { /* Анімований бордер зліва */
+/* #results.result li::before {
     content: '';
     position: absolute;
     left: 0;
