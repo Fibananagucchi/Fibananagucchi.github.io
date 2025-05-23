@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <!-- Question Counter -->
   <div class="question-counter" id="questionCounter">
@@ -16,24 +18,81 @@
     <span class="current-questions" id="answeredCount">0</span> /
     <span class="total-questions" id="totalCount">60</span>
   </div>
-
+  <button class="main-button" onclick="resetTest()">Main Menu</button>
   <div class="container">
     <h1>RIASEC Test</h1>
-    <p>Evaluate how much each statement describes your interests, on a scale from 
-        <br><b>1 (Absolutely disagree) to 5 (Absolutely agree).</b></p>
+    <p>Evaluate how much each statement describes your interests, on a scale from
+      <br><b>1 (Absolutely disagree) to 5 (Absolutely agree).</b>
+    </p>
     <div id="pages"></div>
     <div id="results" class="result"></div>
   </div>
 
+  <div id="confirmationModal" class="modal">
+    <div class="modal-content">
+      <h2>Are you sure you want to finish?</h2>
+      <p>Your answers will be submitted and results will be shown.</p>
+      <div class="modal-buttons">
+        <button id="confirmFinish">Yes, Show Results</button>
+        <button class="secondary-button" id="cancelFinish">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <div class="contact-us-container">
+    <div class="contact-us-label-wrapper">
+      <span class="arrow">→</span> Contact us
+    </div>
+    <div class="contact-us-button" id="contactUsMainButton">
+      <img src="mdu-logo-bird_blue.png" alt="Contact Us Icon">
+    </div>
+    <div class="social-links">
+      <div class="social-item">
+        <a href="https://www.instagram.com/mdu.mariupol/" target="_blank">
+          <div class="social-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram"
+              viewBox="0 0 16 16">
+              <path
+                d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334" />
+            </svg>
+          </div>
+          Instagram
+        </a>
+      </div>
+      <div class="social-item">
+        <a href="https://www.facebook.com/mdu.mariupol/?locale=uk_UA" target="_blank">
+          <div class="social-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook"
+              viewBox="0 0 16 16">
+              <path
+                d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
+            </svg>
+          </div>
+          Facebook
+        </a>
+      </div>
+      <div class="social-item">
+        <a href="https://mu.edu.ua" target="_blank">
+          <div class="social-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-globe2"
+              viewBox="0 0 16 16">
+              <path
+                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m7.5-6.923c-.67.204-1.335.82-1.887 1.855q-.215.403-.395.872c.705.157 1.472.257 2.282.287zM4.249 3.539q.214-.577.481-1.078a7 7 0 0 1 .597-.933A7 7 0 0 0 3.051 3.05q.544.277 1.198.49zM3.509 7.5c.036-1.07.188-2.087.436-3.008a9 9 0 0 1-1.565-.667A6.96 6.96 0 0 0 1.018 7.5zm1.4-2.741a12.3 12.3 0 0 0-.4 2.741H7.5V5.091c-.91-.03-1.783-.145-2.591-.332M8.5 5.09V7.5h2.99a12.3 12.3 0 0 0-.399-2.741c-.808.187-1.681.301-2.591.332zM4.51 8.5c.035.987.176 1.914.399 2.741A13.6 13.6 0 0 1 7.5 10.91V8.5zm3.99 0v2.409c.91.03 1.783.145 2.591.332.223-.827.364-1.754.4-2.741zm-3.282 3.696q.18.469.395.872c.552 1.035 1.218 1.65 1.887 1.855V11.91c-.81.03-1.577.13-2.282.287zm.11 2.276a7 7 0 0 1-.598-.933 9 9 0 0 1-.481-1.079 8.4 8.4 0 0 0-1.198.49 7 7 0 0 0 2.276 1.522zm-1.383-2.964A13.4 13.4 0 0 1 3.508 8.5h-2.49a6.96 6.96 0 0 0 1.362 3.675c.47-.258.995-.482 1.565-.667m6.728 2.964a7 7 0 0 0 2.275-1.521 8.4 8.4 0 0 0-1.197-.49 9 9 0 0 1-.481 1.078 7 7 0 0 1-.597.933M8.5 11.909v3.014c.67-.204 1.335-.82 1.887-1.855q.216-.403.395-.872A12.6 12.6 0 0 0 8.5 11.91zm3.555-.401c.57.185 1.095.409 1.565.667A6.96 6.96 0 0 0 14.982 8.5h-2.49a13.4 13.4 0 0 1-.437 3.008M14.982 7.5a6.96 6.96 0 0 0-1.362-3.675c-.47.258-.995.482-1.565.667.248.92.4 1.938.437 3.008zM11.27 2.461q.266.502.482 1.078a8.4 8.4 0 0 0 1.196-.49 7 7 0 0 0-2.275-1.52c.218.283.418.597.597.932m-.488 1.343a8 8 0 0 0-.395-.872C9.835 1.897 9.17 1.282 8.5 1.077V4.09c.81-.03 1.577-.13 2.282-.287z" />
+            </svg>
+          </div>
+          Website
+        </a>
+      </div>
+    </div>
+  </div>
   <script>
     const categories = ["Realistic", "Investigative", "Artistic", "Social", "Enterprising", "Conventional"];
     const questions = [
-        ...["I enjoy working with my hands.", "I like fixing things.", "I prefer physical tasks over desk jobs.", "I enjoy using tools and machinery.", "I would rather be outdoors than in an office.", "I’m interested in how machines work.", "I enjoy building or assembling things.", "I like practical problem-solving.", "I would enjoy working in construction or mechanics.", "I’m comfortable doing physical labor."],
-        ...["I enjoy solving complex problems.", "I like to figure out how things work.", "I’m curious about science and discovery.", "I enjoy working independently on research.", "I like analyzing data.", "I’m drawn to technology and innovation.", "I enjoy asking questions and seeking answers.", "I would enjoy working in a lab.", "I like reading about science or math.", "I enjoy figuring out puzzles."],
-        ...["I like expressing myself creatively.", "I enjoy drawing, writing, or performing.", "I prefer unstructured environments.", "I like working on my own projects.", "I enjoy creating art or music.", "I like experimenting with ideas and styles.", "I enjoy design and aesthetics.", "I prefer freedom over rules.", "I like visual storytelling.", "I enjoy brainstorming original ideas."],
-        ...["I enjoy helping people.", "I’m a good listener.", "I like teaching or guiding others.", "I enjoy volunteering or community work.", "I prefer working with others.", "I enjoy discussing ideas with others.", "I care about people's feelings.", "I like making a difference in people’s lives.", "I enjoy group activities.", "I’m comfortable speaking in front of others."],
-        ...["I enjoy leading groups or projects.", "I like persuading people.", "I enjoy competition.", "I’m interested in business and marketing.", "I like setting and reaching goals.", "I prefer being in charge.", "I’m comfortable taking risks.", "I enjoy selling ideas or products.", "I like promoting things I believe in.", "I enjoy planning big projects."],
-        ...["I enjoy organizing and sorting things.", "I prefer routines and structure.", "I like working with data and numbers.", "I enjoy following detailed instructions.", "I’m good at keeping things in order.", "I like planning and scheduling.", "I prefer predictable environments.", "I enjoy completing tasks accurately.", "I value stability and reliability.", "I enjoy office and clerical work."]
+      ...["I enjoy working with my hands.", "I like fixing things.", "I prefer physical tasks over desk jobs.", "I enjoy using tools and machinery.", "I would rather be outdoors than in an office.", "I’m interested in how machines work.", "I enjoy building or assembling things.", "I like practical problem-solving.", "I would enjoy working in construction or mechanics.", "I’m comfortable doing physical labor."],
+      ...["I enjoy solving complex problems.", "I like to figure out how things work.", "I’m curious about science and discovery.", "I enjoy working independently on research.", "I like analyzing data.", "I’m drawn to technology and innovation.", "I enjoy asking questions and seeking answers.", "I would enjoy working in a lab.", "I like reading about science or math.", "I enjoy figuring out puzzles."],
+      ...["I like expressing myself creatively.", "I enjoy drawing, writing, or performing.", "I prefer unstructured environments.", "I like working on my own projects.", "I enjoy creating art or music.", "I like experimenting with ideas and styles.", "I enjoy design and aesthetics.", "I prefer freedom over rules.", "I like visual storytelling.", "I enjoy brainstorming original ideas."],
+      ...["I enjoy helping people.", "I’m a good listener.", "I like teaching or guiding others.", "I enjoy volunteering or community work.", "I prefer working with others.", "I enjoy discussing ideas with others.", "I care about people's feelings.", "I like making a difference in people’s lives.", "I enjoy group activities.", "I’m comfortable speaking in front of others."],
+      ...["I enjoy leading groups or projects.", "I like persuading people.", "I enjoy competition.", "I’m interested in business and marketing.", "I like setting and reaching goals.", "I prefer being in charge.", "I’m comfortable taking risks.", "I enjoy selling ideas or products.", "I like promoting things I believe in.", "I enjoy planning big projects."],
+      ...["I enjoy organizing and sorting things.", "I prefer routines and structure.", "I like working with data and numbers.", "I enjoy following detailed instructions.", "I’m good at keeping things in order.", "I like planning and scheduling.", "I prefer predictable environments.", "I enjoy completing tasks accurately.", "I value stability and reliability.", "I enjoy office and clerical work."]
     ];
 
     const questionsPerPage = 10;
@@ -44,6 +103,88 @@
 
     const pagesContainer = document.getElementById("pages");
     const resultsContainer = document.getElementById("results");
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const contactUsMainButton = document.getElementById('contactUsMainButton');
+      const socialLinksContainer = document.querySelector('.social-links');
+      const contactUsLabelWrapper = document.querySelector('.contact-us-label-wrapper');
+
+      if (contactUsMainButton) {
+        contactUsMainButton.addEventListener('click', () => {
+          socialLinksContainer.classList.toggle('active');
+          contactUsMainButton.classList.toggle('active'); // Add/remove active class for main button animation
+        });
+
+        // Optional: Show "Contact us" label on hover of the main button area
+        contactUsMainButton.addEventListener('mouseenter', () => {
+          // Only show label if social links are not active
+          if (!socialLinksContainer.classList.contains('active')) {
+            contactUsLabelWrapper.classList.add('visible');
+          }
+        });
+
+        contactUsMainButton.addEventListener('mouseleave', () => {
+          // Only hide label if social links are not active
+          if (!socialLinksContainer.classList.contains('active')) {
+            contactUsLabelWrapper.classList.remove('visible');
+          }
+        });
+
+        // If social links are active, keep the label visible
+        // You might need to adjust this logic based on your desired UX.
+        // For example, if clicking closes the social links, the label should hide then.
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'class') {
+              if (socialLinksContainer.classList.contains('active')) {
+                contactUsLabelWrapper.classList.add('visible'); // Keep visible when social links are out
+              } else {
+                contactUsLabelWrapper.classList.remove('visible'); // Hide when social links are hidden
+              }
+            }
+          });
+        });
+
+        observer.observe(socialLinksContainer, { attributes: true });
+      }
+
+      // Modal confirmation logic (example, integrate with your form submission)
+      const confirmationModal = document.getElementById('confirmationModal');
+      const confirmSendButton = document.getElementById('confirmSend');
+      const cancelSendButton = document.getElementById('cancelSend');
+
+      // Example function to show the modal (call this when form is incomplete)
+      function showConfirmationModal() {
+        if (confirmationModal) {
+          confirmationModal.style.display = 'flex'; // Make it visible
+        }
+      }
+
+      // Example: when user clicks "Submit" without all answers
+      // You'll need to integrate this with your form validation logic
+      // document.getElementById('yourSubmitButton').addEventListener('click', (event) => {
+      //     if (thereAreUnansweredQuestions) { // Your condition here
+      //         event.preventDefault(); // Prevent default form submission
+      //         showConfirmationModal();
+      //     }
+      // });
+
+      if (confirmSendButton) {
+        confirmSendButton.addEventListener('click', () => {
+          // Logic to force submit the form (e.g., submitForm(true))
+          console.log('Form submitted even with unanswered questions!');
+          if (confirmationModal) confirmationModal.style.display = 'none';
+          // You'll need to add your actual form submission logic here
+        });
+      }
+
+      if (cancelSendButton) {
+        cancelSendButton.addEventListener('click', () => {
+          console.log('Form submission cancelled. User can continue answering.');
+          if (confirmationModal) confirmationModal.style.display = 'none';
+        });
+      }
+    });
 
     function createPages() {
       const startPage = document.createElement("div");
@@ -112,25 +253,25 @@
           page.appendChild(div);
         });
 
-        
-if (p > 0) {
-  const prevBtn = document.createElement("button");
-  prevBtn.textContent = "Previous Page";
-  prevBtn.className = "secondary-button";
-  prevBtn.onclick = () => {
-    const pages = document.querySelectorAll(".page");
-    pages[currentPage].classList.remove("active");
-    currentPage--;
-    pages[currentPage].classList.add("active");
-    localStorage.setItem("currentPage", currentPage);
-    document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
-  };
-  page.appendChild(prevBtn);
-}
 
-const btn = document.createElement("button");
+        if (p > 0) {
+          const prevBtn = document.createElement("button");
+          prevBtn.textContent = "Previous Page";
+          prevBtn.className = "secondary-button";
+          prevBtn.onclick = () => {
+            const pages = document.querySelectorAll(".page");
+            pages[currentPage].classList.remove("active");
+            currentPage--;
+            pages[currentPage].classList.add("active");
+            localStorage.setItem("currentPage", currentPage);
+            document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
+          };
+          page.appendChild(prevBtn);
+        }
+
+        const btn = document.createElement("button");
         btn.textContent = p === totalQuestionPages - 1 ? "See Results" : "Next Page";
-        btn.onclick = p === totalQuestionPages - 1 ? showResults : validateAndNextPage;
+        btn.onclick = p === totalQuestionPages - 1 ? showConfirmationModal : validateAndNextPage;
         page.appendChild(btn);
 
         pagesContainer.appendChild(page);
@@ -145,17 +286,14 @@ const btn = document.createElement("button");
     function validateAndNextPage() {
       if (currentPage >= 1 && currentPage <= totalQuestionPages) {
         const currentQuestionPage = document.getElementById(`question-page-${currentPage - 1}`);
-        const radios = currentQuestionPage.querySelectorAll('input[type="radio"]');
-        let answeredCount = 0;
-        for (let i = 0; i < radios.length; i += 5) {
-          if (radios[i].checked || radios[i + 1].checked || radios[i + 2].checked || radios[i + 3].checked || radios[i + 4].checked) {
-            answeredCount++;
-          }
-        }
+        const questions = currentQuestionPage.querySelectorAll('.question');
+
       }
+
       localStorage.setItem("currentPage", currentPage);
       nextPage();
     }
+
 
     function nextPage() {
       const pages = document.querySelectorAll(".page");
@@ -235,94 +373,94 @@ const btn = document.createElement("button");
     }
 
     function getCourseLinksHtml(topTypes) {
-            const courseLinks = {
-                "Realistic": [
-                    { text: "Intro to Woodworking (Coursera)", url: "https://www.coursera.org/" },
-                    { text: "Learn Electrical Engineering (Alison)", url: "https://alison.com/tag/electrical-engineering" }
-                ],
-                "Investigative": [
-                    { text: "Python for Data Science (Coursera)", url: "https://www.coursera.org/learn/python-for-applied-data-science-ai" },
-                    { text: "Intro to Biology (iBiology)", url: "https://www.ibiology.org/online-biology-courses/" }
-                ],
-                "Artistic": [
-                    { text: "Graphic Design Specialization (Coursera)", url: "https://www.coursera.org/learn/fundamentals-of-graphic-design" },
-                    { text: "Creative Writing (Coursera)", url: "https://www.coursera.org/learn/craft-of-character" }
-                ],
-                "Social": [
-                    { text: "Introduction to Psychology (Coursera)", url: "https://www.coursera.org/learn/introduction-psych" },
-                    { text: "Teaching English as a Foreign Language (Coursera)", url: "https://www.coursera.org/learn/teachlanguageonline" }
-                ],
-                "Enterprising": [
-                    { text: "Business Foundations (Coursera)", url: "https://www.coursera.org/specializations/wharton-business-foundations" },
-                    { text: "Digital Marketing (Coursera)", url: "https://www.coursera.org/learn/social-media-digital-marketing-fundamentals" }
-                ],
-                "Conventional": [
-                    { text: "Financial Accounting (Coursera)", url: "https://www.coursera.org/learn/financial-accounting-basics" },
-                    { text: "Excel Skills for Business (Coursera)", url: "https://www.coursera.org/learn/excel-intermediate-2" }
-                ]
-            };
+      const courseLinks = {
+        "Realistic": [
+          { text: "Intro to Woodworking (Coursera)", url: "https://www.coursera.org/" },
+          { text: "Learn Electrical Engineering (Alison)", url: "https://alison.com/tag/electrical-engineering" }
+        ],
+        "Investigative": [
+          { text: "Python for Data Science (Coursera)", url: "https://www.coursera.org/learn/python-for-applied-data-science-ai" },
+          { text: "Intro to Biology (iBiology)", url: "https://www.ibiology.org/online-biology-courses/" }
+        ],
+        "Artistic": [
+          { text: "Graphic Design Specialization (Coursera)", url: "https://www.coursera.org/learn/fundamentals-of-graphic-design" },
+          { text: "Creative Writing (Coursera)", url: "https://www.coursera.org/learn/craft-of-character" }
+        ],
+        "Social": [
+          { text: "Introduction to Psychology (Coursera)", url: "https://www.coursera.org/learn/introduction-psych" },
+          { text: "Teaching English as a Foreign Language (Coursera)", url: "https://www.coursera.org/learn/teachlanguageonline" }
+        ],
+        "Enterprising": [
+          { text: "Business Foundations (Coursera)", url: "https://www.coursera.org/specializations/wharton-business-foundations" },
+          { text: "Digital Marketing (Coursera)", url: "https://www.coursera.org/learn/social-media-digital-marketing-fundamentals" }
+        ],
+        "Conventional": [
+          { text: "Financial Accounting (Coursera)", url: "https://www.coursera.org/learn/financial-accounting-basics" },
+          { text: "Excel Skills for Business (Coursera)", url: "https://www.coursera.org/learn/excel-intermediate-2" }
+        ]
+      };
 
-            let html = '';
-            topTypes.forEach(type => {
-                if (courseLinks[type]) {
-                    courseLinks[type].forEach(link => {
-                        html += `<li><a href="${link.url}" target="_blank">${link.text}</a></li>`;
-                    });
-                }
-            });
-            return html || '<li>No specific course examples available for your top types.</li>';
+      let html = '';
+      topTypes.forEach(type => {
+        if (courseLinks[type]) {
+          courseLinks[type].forEach(link => {
+            html += `<li><a href="${link.url}" target="_blank">${link.text}</a></li>`;
+          });
         }
+      });
+      return html || '<li>No specific course examples available for your top types.</li>';
+    }
 
-        function getJobVacanciesHtml(topTypes) {
-            const jobVacancies = {
-                "Realistic": [
-                    { text: "Mechanic", url: "https://www.work.ua/jobs-механік/" },
-                    { text: "Carpenter", url: "https://www.work.ua/jobs-столяр/" },
-                    { text: "Engineer", url: "https://www.work.ua/jobs-інженер-проєктувальник/" },
-                    { text: "Electrician", url: "https://www.work.ua/jobs-електрик/" }
-                ],
-                "Investigative": [
-                    { text: "Scientist", url: "https://www.work.ua/jobs-науковий+співробітник/" },
-                    { text: "Researcher", url: "https://www.work.ua/jobs-дослідник/" },
-                    { text: "Data Analyst", url: "https://www.work.ua/jobs-аналітик+баз+даних/" },
-                    { text: "Doctor", url: "https://www.work.ua/jobs-лікар+загальної+практики/" }
-                ],
-                "Artistic": [
-                    { text: "Artist", url: "https://www.work.ua/jobs-художник/" },
-                    { text: "Writer", url: "https://www.work.ua/jobs-письменник/" },
-                    { text: "Graphic designer", url: "https://www.work.ua/jobs-графічний+дизайнер/" },
-                    { text: "Musician", url: "" }
-                ],
-                "Social": [
-                    { text: "Teacher", url: "https://www.work.ua/jobs-вчитель/" },
-                    { text: "Counselor", url: "https://www.work.ua/jobs-вихователь/" },
-                    { text: "Nurse", url: "https://www.work.ua/jobs-медсестра/" },
-                    { text: "Social worker", url: "https://www.work.ua/jobs-соц.+працівник/" }
-                ],
-                "Enterprising": [
-                    { text: "Entrepreneur", url: "" },
-                    { text: "Lawyer", url: "https://www.work.ua/jobs-юрист/" },
-                    { text: "Manager", url: "https://www.work.ua/jobs-менеджер/" },
-                    { text: "Salesperson", url: "https://www.work.ua/jobs-продавець/" }
-                ],
-                "Conventional": [
-                    { text: "Accountant", url: "https://www.work.ua/jobs-бухгалтер/" },
-                    { text: "Financial Analyst", url: "https://www.work.ua/jobs-фінансовий+аналітик/" },
-                    { text: "Secretary", url: "https://www.work.ua/jobs-секретар/" },
-                    { text: "Administrative", url: "https://www.work.ua/jobs-адміністратор/" }
-                ]
-            };
+    function getJobVacanciesHtml(topTypes) {
+      const jobVacancies = {
+        "Realistic": [
+          { text: "Mechanic", url: "https://www.work.ua/jobs-механік/" },
+          { text: "Carpenter", url: "https://www.work.ua/jobs-столяр/" },
+          { text: "Engineer", url: "https://www.work.ua/jobs-інженер-проєктувальник/" },
+          { text: "Electrician", url: "https://www.work.ua/jobs-електрик/" }
+        ],
+        "Investigative": [
+          { text: "Scientist", url: "https://www.work.ua/jobs-науковий+співробітник/" },
+          { text: "Researcher", url: "https://www.work.ua/jobs-дослідник/" },
+          { text: "Data Analyst", url: "https://www.work.ua/jobs-аналітик+баз+даних/" },
+          { text: "Doctor", url: "https://www.work.ua/jobs-лікар+загальної+практики/" }
+        ],
+        "Artistic": [
+          { text: "Artist", url: "https://www.work.ua/jobs-художник/" },
+          { text: "Writer", url: "https://www.work.ua/jobs-письменник/" },
+          { text: "Graphic designer", url: "https://www.work.ua/jobs-графічний+дизайнер/" },
+          { text: "Musician", url: "" }
+        ],
+        "Social": [
+          { text: "Teacher", url: "https://www.work.ua/jobs-вчитель/" },
+          { text: "Counselor", url: "https://www.work.ua/jobs-вихователь/" },
+          { text: "Nurse", url: "https://www.work.ua/jobs-медсестра/" },
+          { text: "Social worker", url: "https://www.work.ua/jobs-соц.+працівник/" }
+        ],
+        "Enterprising": [
+          { text: "Entrepreneur", url: "" },
+          { text: "Lawyer", url: "https://www.work.ua/jobs-юрист/" },
+          { text: "Manager", url: "https://www.work.ua/jobs-менеджер/" },
+          { text: "Salesperson", url: "https://www.work.ua/jobs-продавець/" }
+        ],
+        "Conventional": [
+          { text: "Accountant", url: "https://www.work.ua/jobs-бухгалтер/" },
+          { text: "Financial Analyst", url: "https://www.work.ua/jobs-фінансовий+аналітик/" },
+          { text: "Secretary", url: "https://www.work.ua/jobs-секретар/" },
+          { text: "Administrative", url: "https://www.work.ua/jobs-адміністратор/" }
+        ]
+      };
 
-            let html = '';
-            topTypes.forEach(type => {
-                if (jobVacancies[type]) {
-                    jobVacancies[type].forEach(job => {
-                        html += `<li><a href="${job.url}" target="_blank">${job.text}</a></li>`;
-                    });
-                }
-            });
-            return html || '<li>No specific job vacancies available for your top types.</li>';
+      let html = '';
+      topTypes.forEach(type => {
+        if (jobVacancies[type]) {
+          jobVacancies[type].forEach(job => {
+            html += `<li><a href="${job.url}" target="_blank">${job.text}</a></li>`;
+          });
         }
+      });
+      return html || '<li>No specific job vacancies available for your top types.</li>';
+    }
 
     createPages();
     updateAnsweredCount();
@@ -332,6 +470,21 @@ const btn = document.createElement("button");
       const pages = document.querySelectorAll(".page");
       pages.forEach((p, i) => p.classList.toggle("active", i === currentPage));
     }
+
+    function showConfirmationModal() {
+      document.getElementById("confirmationModal").style.display = "flex";
+    }
+
+    document.getElementById("confirmFinish").onclick = function () {
+      document.getElementById("confirmationModal").style.display = "none";
+      showResults();
+    };
+
+    document.getElementById("cancelFinish").onclick = function () {
+      document.getElementById("confirmationModal").style.display = "none";
+    };
+
   </script>
 </body>
+
 </html>
