@@ -1,0 +1,497 @@
+/* style.css */
+
+:root {
+    --primary-dark-blue: #0A2342;  /* Глибокий темно-синій для фону */
+    --primary-orange: #FF8C00;     /* Яскравий помаранчевий для акцентів, кнопок */
+    --secondary-orange-light: #FFA500; /* Світліший помаранчевий для ховерів */
+    --accent-blue-light: #5090D0; /* Світліший синій для деяких елементів або ховерів */
+    --text-primary-on-dark: #F0F4F8; /* Дуже світлий, майже білий текст на темному фоні */
+    --text-secondary-on-dark: #A9BCD0; /* Світло-сіро-синій для вторинного тексту */
+    --text-on-orange: #FFFFFF;       /* Білий текст на помаранчевих кнопках */
+    --background-content: #103A5F; /* Трохи світліший темно-синій для контейнерів */
+    --border-color: #2A628F;       /* Синій для бордюрів, менш контрастний */
+    --shadow-color: rgba(0, 0, 0, 0.25); /* Колір для тіней */
+    --success-color: #4CAF50;       /* Зелений для успіху (можна залишити або адаптувати) */
+    --danger-color: #D9534F;        /* Червоний для помилок (можна залишити або адаптувати) */
+
+    --font-family: 'Open Sans', sans-serif;
+    --border-radius-large: 25px;   /* Значно округлені кути для кнопок та карток */
+    --border-radius-medium: 15px;  /* Середнє округлення для менших елементів */
+    --border-radius-small: 8px;    /* Мале округлення */
+
+    --shadow-main: 0 6px 18px var(--shadow-color); /* Виразніша тінь */
+    --shadow-interactive: 0 4px 12px rgba(255, 140, 0, 0.3); /* Тінь з помаранчевим відтінком для інтерактивних елементів */
+    --transition-main: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1); /* Плавніша анімація */
+    --transition-fast: all 0.2s ease-out;
+
+    --padding-xlarge: 40px;
+    --padding-large: 30px;
+    --padding-medium: 20px;
+    --padding-small: 15px;
+    --padding-xsmall: 10px;
+}
+
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: var(--padding-medium);
+    background-color: var(--primary-dark-blue);
+    color: var(--text-primary-on-dark);
+    line-height: 1.7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden; /* Запобігання горизонтальному скролу через анімації */
+}
+
+.container {
+    max-width: 850px;
+    width: 90%; /* Використання відсотків для кращої адаптивності */
+    margin: var(--padding-medium) auto;
+    background-color: var(--background-content);
+    padding: var(--padding-large);
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow-main);
+    transition: var(--transition-main);
+}
+
+h1, h2, h3 {
+    text-align: center;
+    margin-bottom: var(--padding-medium);
+    font-weight: 700;
+    transition: color 0.3s ease;
+}
+
+h1 {
+    color: var(--primary-orange); /* Помаранчевий для головного заголовка */
+    margin-bottom: var(--padding-large);
+    font-size: 2.4em;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+h2 {
+    color: var(--secondary-orange-light); /* Світліший помаранчевий для H2 */
+    font-size: 1.8em;
+}
+
+h3 {
+    font-size: 1.5em;
+    color: var(--accent-blue-light); /* Світло-синій для H3 */
+}
+
+p {
+    text-align: center;
+    margin-bottom: var(--padding-medium);
+    color: var(--text-secondary-on-dark);
+    font-size: 1.05em;
+}
+
+.page {
+    display: none;
+    animation: slideUpFadeIn 0.7s var(--transition-main) forwards;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes slideUpFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.question {
+    background-color: var(--primary-dark-blue); /* Темніший фон для контрасту */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-medium); /* Округлені краї */
+    padding: var(--padding-medium);
+    margin-bottom: var(--padding-medium);
+    transition: var(--transition-main), box-shadow 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    position: relative; /* Для можливих псевдо-елементів */
+    overflow: hidden; /* Щоб анімації не виходили за межі */
+}
+
+.question:hover {
+    transform: translateY(-5px) scale(1.02); /* Більш виразна анімація при наведенні */
+    box-shadow: var(--shadow-interactive);
+    border-color: var(--primary-orange);
+}
+
+.question label {
+    margin-bottom: var(--padding-small);
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: var(--text-primary-on-dark);
+}
+
+.question-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--padding-small);
+    align-items: center;
+    margin-top: var(--padding-xsmall);
+}
+
+.option-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--padding-xsmall);
+    transition: transform 0.2s ease;
+}
+
+.option-wrapper:hover {
+    transform: scale(1.05); /* Анімація для обгортки опції */
+}
+
+input[type="radio"] {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--border-color);
+    border-radius: 50%; /* Завжди круглі */
+    cursor: pointer;
+    position: relative;
+    transition: var(--transition-fast);
+    background-color: transparent; /* Прозорий фон */
+}
+
+input[type="radio"]:hover {
+    border-color: var(--primary-orange);
+}
+
+input[type="radio"]:checked {
+    border-color: var(--primary-orange);
+    background-color: var(--primary-orange); /* Помаранчевий фон при виборі */
+}
+
+input[type="radio"]:checked::after {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--primary-dark-blue); /* Темно-синя галочка для контрасту */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: var(--transition-fast);
+}
+
+.radio-label {
+    font-size: 1rem;
+    color: var(--text-secondary-on-dark);
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.radio-label:hover {
+    color: var(--primary-orange);
+}
+
+input[type="radio"]:checked + .radio-label {
+    color: var(--primary-orange);
+    font-weight: 600;
+}
+
+button {
+    display: inline-block; /* Дозволяє кнопці мати ширину по контенту + padding */
+    min-width: 200px;
+    margin: var(--padding-medium) auto 0 auto;
+    padding: var(--padding-small) var(--padding-large); /* Збільшено padding для "пухкості" */
+    font-size: 1.15rem;
+    font-weight: 700; /* Жирніший текст */
+    color: var(--text-on-orange);
+    background: linear-gradient(145deg, var(--secondary-orange-light), var(--primary-orange)); /* Градієнт для кнопки */
+    border: none;
+    border-radius: var(--border-radius-large); /* Дуже округлі кнопки */
+    cursor: pointer;
+    transition: var(--transition-main), transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); /* Ефект "пружини" */
+    box-shadow: 0 4px 10px rgba(255, 140, 0, 0.3), 0 2px 5px rgba(0,0,0,0.1); /* Тінь з помаранчевим відтінком */
+    text-align: center;
+}
+/* Центрування кнопки якщо вона display: block */
+.page button, .container > button {
+    display: block;
+}
+
+
+button:hover:not(:disabled) {
+    background: linear-gradient(145deg, var(--primary-orange), var(--secondary-orange-light)); /* Зміна градієнта */
+    transform: translateY(-3px) scale(1.05); /* Підняття та збільшення */
+    box-shadow: 0 6px 15px rgba(255, 140, 0, 0.4), 0 3px 7px rgba(0,0,0,0.15);
+}
+
+button:active:not(:disabled) {
+    transform: translateY(1px) scale(0.98); /* Ефект натискання */
+    box-shadow: 0 2px 5px rgba(255, 140, 0, 0.2);
+}
+
+button:disabled {
+    background: var(--border-color);
+    color: var(--text-secondary-on-dark);
+    cursor: not-allowed;
+    opacity: 0.6;
+    box-shadow: none;
+}
+
+button.secondary-button {
+    background: transparent; /* Прозорий фон */
+    color: var(--primary-orange);
+    border: 2px solid var(--primary-orange); /* Помаранчевий контур */
+    box-shadow: none;
+}
+
+button.secondary-button:hover:not(:disabled) {
+    background: var(--primary-orange);
+    color: var(--text-on-orange);
+    border-color: var(--primary-orange);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 15px rgba(255, 140, 0, 0.4);
+}
+
+/* Кнопка "See Results" */
+#question-page-5 button, .page:last-child button {
+    background: linear-gradient(145deg, var(--accent-blue-light), #3071A9 ); /* Синій градієнт для результатів */
+    color: #FFFFFF;
+    box-shadow: 0 4px 10px rgba(80, 144, 208, 0.3);
+}
+
+#question-page-5 button:hover:not(:disabled), .page:last-child button:hover:not(:disabled) {
+    background: linear-gradient(145deg, #3071A9, var(--accent-blue-light));
+    box-shadow: 0 6px 15px rgba(80, 144, 208, 0.4);
+}
+
+.result-card {
+    background-color: var(--primary-dark-blue);
+    padding: var(--padding-large);
+    margin-top: var(--padding-large);
+    border-radius: var(--border-radius-large); /* Округлі краї */
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-main);
+    animation: fadeIn 0.8s ease-out;
+    overflow: hidden;
+}
+
+#results.result {
+    display: none;
+}
+
+#results.result h2 {
+    color: var(--primary-orange); /* Помаранчевий для заголовка результатів */
+}
+
+#results.result .result-code {
+    font-size: 2.8em;
+    font-weight: bold;
+    color: var(--primary-orange);
+    background-color: var(--background-content);
+    border-radius: var(--border-radius-medium);
+    padding: var(--padding-small) var(--padding-medium);
+    margin-bottom: var(--padding-medium);
+    text-align: center;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+#results.result .result-code:hover {
+    transform: scale(1.03);
+}
+
+
+#results.result p {
+    text-align: left;
+    color: var(--text-primary-on-dark);
+}
+
+#results.result ul {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--padding-small);
+}
+
+#results.result li {
+    background-color: var(--background-content);
+    border: 1px solid var(--border-color);
+    padding: var(--padding-medium); /* Збільшено padding */
+    margin-bottom: var(--padding-small);
+    border-radius: var(--border-radius-medium); /* Округлі краї */
+    transition: var(--transition-main);
+    position: relative; /* Для анімації бордера */
+}
+
+/* #results.result li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0px;
+    background-color: var(--primary-orange);
+    border-top-left-radius: var(--border-radius-medium);
+    border-bottom-left-radius: var(--border-radius-medium);
+    transition: width 0.3s ease-out;
+} */
+
+#results.result li:hover {
+    transform: translateX(6px);
+    border-color: #ffa500;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-width: 1px 1px 1px 6px;
+}
+
+
+#results.result li strong {
+    color: var(--primary-orange);
+}
+
+.course-links-section, .job-vacancies-section {
+    margin-top: var(--padding-large);
+    padding-top: var(--padding-medium);
+    border-top: 1px solid var(--border-color);
+}
+
+.course-links-section h3, .job-vacancies-section h3 {
+    color: var(--accent-blue-light); /* Світло-синій для підзаголовків секцій */
+}
+
+.course-links-section ul, .job-vacancies-section ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.course-links-section li, .job-vacancies-section li {
+    padding: var(--padding-xsmall) 0;
+    margin-bottom: var(--padding-xsmall);
+    border-bottom: 1px dashed var(--border-color);
+    border-radius: var(--border-radius-small); /* Невелике округлення для елементів списку */
+    transition: background-color 0.2s ease;
+}
+.course-links-section li:hover, .job-vacancies-section li:hover {
+    background-color: rgba(255, 140, 0, 0.05); /* Легкий помаранчевий фон при наведенні */
+}
+
+.course-links-section li:last-child, .job-vacancies-section li:last-child {
+    border-bottom: none;
+}
+
+.course-links-section a, .job-vacancies-section a {
+    color: var(--secondary-orange-light); /* Світлий помаранчевий для посилань */
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+    display: inline-block; /* Для padding-left анімації */
+}
+
+.course-links-section a:hover, .job-vacancies-section a:hover {
+    color: var(--primary-orange);
+    padding-left: 8px; /* Динамічний відступ */
+}
+
+.registration-form {
+    margin-top: var(--padding-xlarge);
+    background-color: var(--background-content);
+    padding: var(--padding-large);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-large); /* Округлі краї */
+    text-align: center;
+    box-shadow: var(--shadow-main);
+}
+
+.registration-form h3{
+    color: var(--primary-orange);
+}
+
+.registration-form label {
+    display: block;
+    margin-bottom: var(--padding-xsmall);
+    font-weight: 600;
+    color: var(--text-primary-on-dark);
+}
+
+.registration-form input[type="email"] {
+    padding: var(--padding-small);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-medium); /* Округлі краї */
+    font-size: 1rem;
+    width: calc(100% - var(--padding-medium));
+    max-width: 380px;
+    margin-bottom: var(--padding-medium);
+    margin-right: 10px;
+    box-sizing: border-box;
+    background-color: var(--primary-dark-blue); /* Темний фон для поля вводу */
+    color: var(--text-primary-on-dark);
+    transition: var(--transition-main);
+}
+
+.registration-form input[type="email"]::placeholder {
+    color: var(--text-secondary-on-dark);
+    opacity: 0.7;
+}
+
+.registration-form input[type="email"]:focus {
+    outline: none;
+    border-color: var(--primary-orange);
+    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.3); /* Помаранчева рамка при фокусі */
+    background-color: var(--background-content); /* Трохи світліший фон при фокусі */
+}
+
+.registration-form p {
+    font-size: 0.9em;
+    margin-top: var(--padding-medium);
+    color: var(--text-secondary-on-dark);
+}
+
+#pages.hidden {
+    display: none;
+}
+
+/* Адаптивність */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: var(--padding-medium);
+    }
+
+    h1 { font-size: 2.1em; }
+    h2 { font-size: 1.6em; }
+    h3 { font-size: 1.3em; }
+
+    button {
+        min-width: 180px;
+        padding: var(--padding-xsmall) var(--padding-medium);
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body { padding: var(--padding-xsmall); }
+    .container {
+        padding: var(--padding-small);
+        border-radius: var(--border-radius-medium); /* Менше округлення на малих екранах */
+    }
+
+    h1 { font-size: 1.8em; }
+    h2 { font-size: 1.4em; }
+
+    .question { border-radius: var(--border-radius-small); }
+    .question-options { flex-direction: column; align-items: flex-start; }
+    .option-wrapper { width: 100%; } /* Опції на всю ширину */
+
+    input[type="radio"] { width: 22px; height: 22px; }
+    input[type="radio"]:checked::after { font-size: 14px; }
+
+    button {
+        width: 100%; /* Кнопки на всю ширину */
+        min-width: auto;
+        font-size: 1rem;
+        padding: var(--padding-small);
+        border-radius: var(--border-radius-medium);
+    }
+    .registration-form input[type="email"] { max-width: 100%; }
+    #results.result .result-code { font-size: 2.2em; }
+}

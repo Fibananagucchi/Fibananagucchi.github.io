@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RIASEC Test - Career Interests</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>RIASEC Test</h1>
+        <p>Evaluate how much each statement describes your interests, on a scale from 
+            <br>1 (Absolutely disagree) to 5 (Absolutely agree).</p>
+        <div id="pages"></div>
+        <div id="results" class="result"></div>
+    </div>
+
+    <script>
+        const categories = ["Realistic", "Investigative", "Artistic", "Social", "Enterprising", "Conventional"];
+        const questions = [
+            ...["I enjoy working with my hands.", "I like fixing things.", "I prefer physical tasks over desk jobs.", "I enjoy using tools and machinery.", "I would rather be outdoors than in an office.", "I’m interested in how machines work.", "I enjoy building or assembling things.", "I like practical problem-solving.", "I would enjoy working in construction or mechanics.", "I’m comfortable doing physical labor."],
+            ...["I enjoy solving complex problems.", "I like to figure out how things work.", "I’m curious about science and discovery.", "I enjoy working independently on research.", "I like analyzing data.", "I’m drawn to technology and innovation.", "I enjoy asking questions and seeking answers.", "I would enjoy working in a lab.", "I like reading about science or math.", "I enjoy figuring out puzzles."],
+            ...["I like expressing myself creatively.", "I enjoy drawing, writing, or performing.", "I prefer unstructured environments.", "I like working on my own projects.", "I enjoy creating art or music.", "I like experimenting with ideas and styles.", "I enjoy design and aesthetics.", "I prefer freedom over rules.", "I like visual storytelling.", "I enjoy brainstorming original ideas."],
+            ...["I enjoy helping people.", "I’m a good listener.", "I like teaching or guiding others.", "I enjoy volunteering or community work.", "I prefer working with others.", "I enjoy discussing ideas with others.", "I care about people's feelings.", "I like making a difference in people’s lives.", "I enjoy group activities.", "I’m comfortable speaking in front of others."],
+            ...["I enjoy leading groups or projects.", "I like persuading people.", "I enjoy competition.", "I’m interested in business and marketing.", "I like setting and reaching goals.", "I prefer being in charge.", "I’m comfortable taking risks.", "I enjoy selling ideas or products.", "I like promoting things I believe in.", "I enjoy planning big projects."],
+            ...["I enjoy organizing and sorting things.", "I prefer routines and structure.", "I like working with data and numbers.", "I enjoy following detailed instructions.", "I’m good at keeping things in order.", "I like planning and scheduling.", "I prefer predictable environments.", "I enjoy completing tasks accurately.", "I value stability and reliability.", "I enjoy office and clerical work."]
+        ];
+
+        const questionsPerPage = 10;
+        const totalQuestionPages = questions.length / questionsPerPage;
+        let currentPage = parseInt(localStorage.getItem("currentPage")) || 0;
+        const savedAnswers = JSON.parse(localStorage.getItem("answers")) || {};
+        const savedResults = JSON.parse(localStorage.getItem("results")) || null;
+
+        const pagesContainer = document.getElementById("pages");
+        const resultsContainer = document.getElementById("results");
+
+        function createPages() {
+            const startPage = document.createElement("div");
+            startPage.className = "page";
+            startPage.id = "start-page";
+            startPage.innerHTML = `
+                <h2>Welcome to the RIASEC Test</h2>
+                <p>Discover your professional interests and explore matching career paths.</p>
+                <button onclick="nextPage()">Start Test</button>
+                <button onclick="window.location.href='courses.html'" class="secondary-button">View Courses</button>
+            `;
+            pagesContainer.appendChild(startPage);
+
+            for (let p = 0; p < totalQuestionPages; p++) {
+                const page = document.createElement("div");
+                page.className = "page";
+                page.id = `question-page-${p}`;
+
+                const categoryTitle = document.createElement("h2");
+                categoryTitle.textContent = `${categories[p]} Interests`;
+                page.appendChild(categoryTitle);
+
+                const start = p * questionsPerPage;
+                const end = start + questionsPerPage;
+                const sectionQuestions = questions.slice(start, end);
+
+                sectionQuestions.forEach((q, i) => {
+                    const qIndex = start + i;
+                    const div = document.createElement("div");
+                    div.className = "question";
+
+                    const label = document.createElement("label");
+                    label.innerText = `${qIndex + 1}. ${q}`;
+
+                    const optionsDiv = document.createElement("div");
+                    optionsDiv.className = "question-options";
+
+                    [1, 2, 3, 4, 5].forEach((n) => {
+                        const optionWrapper = document.createElement("div");
+                        optionWrapper.className = "option-wrapper";
+
+                        const input = document.createElement("input");
+                        input.type = "radio";
+                        input.name = `q${qIndex}`;
+                        input.id = `q${qIndex}-${n}`;
+                        input.value = n;
+                        input.checked = savedAnswers[`q${qIndex}`] == n;
+                        input.onchange = () => {
+                            savedAnswers[`q${qIndex}`] = n;
+                            localStorage.setItem("answers", JSON.stringify(savedAnswers));
+                        };
+
+                        const radioLabel = document.createElement("label");
+                        radioLabel.htmlFor = `q${qIndex}-${n}`;
+                        radioLabel.className = "radio-label";
+                        radioLabel.innerText = n;
+
+                        optionWrapper.appendChild(input);
+                        optionWrapper.appendChild(radioLabel);
+                        optionsDiv.appendChild(optionWrapper);
+                    });
+
+                    div.appendChild(label);
+                    div.appendChild(optionsDiv);
+                    page.appendChild(div);
+                });
+
+                const btn = document.createElement("button");
+                btn.textContent = p === totalQuestionPages - 1 ? "See Results" : "Next Page";
+                btn.onclick = p === totalQuestionPages - 1 ? showResults : validateAndNextPage;
+                page.appendChild(btn);
+
+                pagesContainer.appendChild(page);
+            }
+        }
+
+        function validateAndNextPage() {
+            if (currentPage >= 1 && currentPage <= totalQuestionPages) {
+                const currentQuestionPage = document.getElementById(`question-page-${currentPage - 1}`);
+                const radios = currentQuestionPage.querySelectorAll('input[type="radio"]');
+                let answeredCount = 0;
+
+                for (let i = 0; i < radios.length; i += 5) {
+                    if (radios[i].checked || radios[i + 1].checked || radios[i + 2].checked || radios[i + 3].checked || radios[i + 4].checked) {
+                        answeredCount++;
+                    }
+                }
+
+                // if (answeredCount < questionsPerPage) {
+                //     alert("Please answer all questions on this page before proceeding.");
+                //     return;
+                // }
+            }
+            localStorage.setItem("currentPage", currentPage);
+            nextPage();
+        }
+
+        function nextPage() {
+            const pages = document.querySelectorAll(".page");
+            if (currentPage < pages.length) {
+                pages[currentPage].classList.remove("active");
+            }
+            currentPage++;
+            if (currentPage < pages.length) {
+                pages[currentPage].classList.add("active");
+                document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
+                localStorage.setItem("currentPage", currentPage);
+            }
+        }
+
+        function showResults(skipValidation = false) {
+            const scores = [0, 0, 0, 0, 0, 0];
+            for (let i = 0; i < questions.length; i++) {
+                const val = parseInt(savedAnswers[`q${i}`] || 0);
+                // if (!val && !skipValidation) {
+                //     alert("Please answer all questions.");
+                //     return;
+                // }
+                const categoryIndex = Math.floor(i / questionsPerPage);
+                scores[categoryIndex] += val;
+            }
+
+            const sorted = [...scores].map((val, idx) => ({ type: categories[idx], val })).sort((a, b) => b.val - a.val);
+            const top3 = sorted.slice(0, 3);
+            const code = top3.map((x) => x.type[0]).join("");
+
+            localStorage.setItem("results", JSON.stringify({ scores, top3 }));
+
+            pagesContainer.classList.add('hidden');
+            resultsContainer.innerHTML = `
+                <div class="result-card">
+                    <h2>Your RIASEC Code: <span class="result-code">${code}</span></h2>
+                    <p><strong>Your Dominant Interest Types (in descending order of scores):</strong></p>
+                    <ul>
+                        ${top3.map((x) => `<li><strong>${x.type}:</strong> ${x.val} points</li>`).join("")}
+                    </ul>
+                    <p><strong>Potential Career Directions Based on Your Code:</strong></p>
+                    <ul>
+                        ${top3.map((x) => getCareersHtml(x.type)).join("")}
+                    </ul>
+                    <button onclick="resetTest()">Start Again</button>
+                </div>
+                <div class="course-links-section">
+                    <h3>Explore Free Courses Related to Your Interests:</h3>
+                    <ul>
+                        ${getCourseLinksHtml(top3.map(item => item.type))}
+                    </ul>
+                </div>
+                <div class="job-vacancies-section">
+                    <h3>Explore Job Vacancies Related to Your Interests:</h3>
+                    <ul>
+                        ${getJobVacanciesHtml(top3.map(item => item.type))}
+                    </ul>
+                    <p style="text-align: center; font-size: 0.9em; color: var(--secondary-gray); margin-top: 20px;">These are example job listings. A real application would provide current and relevant vacancies.</p>
+                </div>
+            `;
+            resultsContainer.style.display = "block";
+            resultsContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetTest() {
+            localStorage.clear();
+            location.reload();
+        }
+
+        function getCareersHtml(type) {
+            const careers = {
+                "Realistic": "Mechanic, Carpenter, Engineer, Electrician, Farmer, Construction Worker, Pilot, Police Officer",
+                "Investigative": "Scientist, Researcher, Data Analyst, Doctor, Programmer, Biologist, Forensic Scientist, Mathematician",
+                "Artistic": "Artist, Writer, Graphic Designer, Musician, Actor, Photographer, Interior Designer, Architect",
+                "Social": "Teacher, Psychologist, Nurse, Social Worker, Counselor, Coach, Clergy, Physical Therapist",
+                "Enterprising": "Entrepreneur, Lawyer, Manager, Salesperson, Politician, Project Leader, Consultant, Financial Advisor",
+                "Conventional": "Accountant, Office Manager, Financial Analyst, Archivist, Secretary, Data Entry Clerk, Librarian"
+            };
+            return `<li><strong>${type}:</strong> ${careers[type] || 'No examples available'}</li>`;
+        }
+
+        function getCourseLinksHtml(topTypes) {
+            const courseLinks = {
+                "Realistic": [
+                    { text: "Intro to Woodworking (Coursera)", url: "https://www.coursera.org/" },
+                    { text: "Learn Electrical Engineering (Alison)", url: "https://alison.com/tag/electrical-engineering" }
+                ],
+                "Investigative": [
+                    { text: "Python for Data Science (Coursera)", url: "https://www.coursera.org/learn/python-for-applied-data-science-ai" },
+                    { text: "Intro to Biology (iBiology)", url: "https://www.ibiology.org/online-biology-courses/" }
+                ],
+                "Artistic": [
+                    { text: "Graphic Design Specialization (Coursera)", url: "https://www.coursera.org/learn/fundamentals-of-graphic-design" },
+                    { text: "Creative Writing (Coursera)", url: "https://www.coursera.org/learn/craft-of-character" }
+                ],
+                "Social": [
+                    { text: "Introduction to Psychology (Coursera)", url: "https://www.coursera.org/learn/introduction-psych" },
+                    { text: "Teaching English as a Foreign Language (Coursera)", url: "https://www.coursera.org/learn/teachlanguageonline" }
+                ],
+                "Enterprising": [
+                    { text: "Business Foundations (Coursera)", url: "https://www.coursera.org/specializations/wharton-business-foundations" },
+                    { text: "Digital Marketing (Coursera)", url: "https://www.coursera.org/learn/social-media-digital-marketing-fundamentals" }
+                ],
+                "Conventional": [
+                    { text: "Financial Accounting (Coursera)", url: "https://www.coursera.org/learn/financial-accounting-basics" },
+                    { text: "Excel Skills for Business (Coursera)", url: "https://www.coursera.org/learn/excel-intermediate-2" }
+                ]
+            };
+
+            let html = '';
+            topTypes.forEach(type => {
+                if (courseLinks[type]) {
+                    courseLinks[type].forEach(link => {
+                        html += `<li><a href="${link.url}" target="_blank">${link.text}</a></li>`;
+                    });
+                }
+            });
+            return html || '<li>No specific course examples available for your top types.</li>';
+        }
+
+        function getJobVacanciesHtml(topTypes) {
+            const jobVacancies = {
+                "Realistic": [
+                    { text: "Mechanic", url: "https://www.work.ua/jobs-механік/" },
+                    { text: "Carpenter", url: "https://www.work.ua/jobs-столяр/" },
+                    { text: "Engineer", url: "https://www.work.ua/jobs-інженер-проєктувальник/" },
+                    { text: "Electrician", url: "https://www.work.ua/jobs-електрик/" }
+                ],
+                "Investigative": [
+                    { text: "Scientist", url: "https://www.work.ua/jobs-науковий+співробітник/" },
+                    { text: "Researcher", url: "https://www.work.ua/jobs-дослідник/" },
+                    { text: "Data Analyst", url: "https://www.work.ua/jobs-аналітик+баз+даних/" },
+                    { text: "Doctor", url: "https://www.work.ua/jobs-лікар+загальної+практики/" }
+                ],
+                "Artistic": [
+                    { text: "Artist", url: "https://www.work.ua/jobs-художник/" },
+                    { text: "Writer", url: "https://www.work.ua/jobs-письменник/" },
+                    { text: "Graphic designer", url: "https://www.work.ua/jobs-графічний+дизайнер/" },
+                    { text: "Musician", url: "" }
+                ],
+                "Social": [
+                    { text: "Teacher", url: "https://www.work.ua/jobs-вчитель/" },
+                    { text: "Counselor", url: "https://www.work.ua/jobs-вихователь/" },
+                    { text: "Nurse", url: "https://www.work.ua/jobs-медсестра/" },
+                    { text: "Social worker", url: "https://www.work.ua/jobs-соц.+працівник/" }
+                ],
+                "Enterprising": [
+                    { text: "Entrepreneur", url: "" },
+                    { text: "Lawyer", url: "https://www.work.ua/jobs-юрист/" },
+                    { text: "Manager", url: "https://www.work.ua/jobs-менеджер/" },
+                    { text: "Salesperson", url: "https://www.work.ua/jobs-продавець/" }
+                ],
+                "Conventional": [
+                    { text: "Accountant", url: "https://www.work.ua/jobs-бухгалтер/" },
+                    { text: "Financial Analyst", url: "https://www.work.ua/jobs-фінансовий+аналітик/" },
+                    { text: "Secretary", url: "https://www.work.ua/jobs-секретар/" },
+                    { text: "Administrative", url: "https://www.work.ua/jobs-адміністратор/" }
+                ]
+            };
+
+            let html = '';
+            topTypes.forEach(type => {
+                if (jobVacancies[type]) {
+                    jobVacancies[type].forEach(job => {
+                        html += `<li><a href="${job.url}" target="_blank">${job.text}</a></li>`;
+                    });
+                }
+            });
+            return html || '<li>No specific job vacancies available for your top types.</li>';
+        }
+
+        createPages();
+        if (savedResults) {
+            showResults(true);
+        } else {
+            const pages = document.querySelectorAll(".page");
+            pages.forEach((p, i) => p.classList.toggle("active", i === currentPage));
+        }
+    </script>
+</body>
+</html>
