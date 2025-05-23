@@ -232,7 +232,6 @@ p {
 }
 
 .question label {
-    margin-bottom: var(--padding-small);
     font-weight: 600;
     font-size: 1.15rem;
     color: var(--text-primary-on-dark);
