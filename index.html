@@ -359,12 +359,12 @@
 
     function getCareersHtml(type) {
       const careers = {
-        "Realistic": "Mechanic, Carpenter, Engineer, Electrician, Farmer, Construction Worker, Pilot, Police Officer",
-        "Investigative": "Scientist, Researcher, Data Analyst, Doctor, Programmer, Biologist, Forensic Scientist, Mathematician",
-        "Artistic": "Artist, Writer, Graphic Designer, Musician, Actor, Photographer, Interior Designer, Architect",
-        "Social": "Teacher, Psychologist, Nurse, Social Worker, Counselor, Coach, Clergy, Physical Therapist",
-        "Enterprising": "Entrepreneur, Lawyer, Manager, Salesperson, Politician, Project Leader, Consultant, Financial Advisor",
-        "Conventional": "Accountant, Office Manager, Financial Analyst, Archivist, Secretary, Data Entry Clerk, Librarian"
+        "Realistic": "Hands-on, practical. Likes tools, machines, outdoor work. (Ex: Mechanic, Farmer)",
+        "Investigative": "Curious, analytical. Enjoys solving problems, research. (Ex: Scientist, Analyst)",
+        "Artistic": "Creative, expressive. Loves art, music, writing. (Ex: Artist, Writer)",
+        "Social": "Helpful, caring. Enjoys teaching, helping others. (Ex: Teacher, Nurse)",
+        "Enterprising": "Ambitious, persuasive. Likes leading, selling. (Ex: Entrepreneur, Salesperson)",
+        "Conventional": "Organized, detail-focused. Enjoys structure, data. (Ex: Accountant, Clerk)"
       };
       return `<li><strong>${type}:</strong> ${careers[type]}</li>`;
     }
@@ -426,7 +426,7 @@
           { text: "Artist", url: "https://www.work.ua/jobs-художник/" },
           { text: "Writer", url: "https://www.work.ua/jobs-письменник/" },
           { text: "Graphic designer", url: "https://www.work.ua/jobs-графічний+дизайнер/" },
-          { text: "Musician", url: "" }
+          { text: "Musician", url: "https://www.work.ua/jobs-%D0%BC%D1%83%D0%B7%D0%B8%D0%BA%D0%B0%D0%BD%D1%82/" }
         ],
         "Social": [
           { text: "Teacher", url: "https://www.work.ua/jobs-вчитель/" },
