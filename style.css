@@ -806,6 +806,7 @@ button.secondary-button:hover:not(:disabled) {
     display: flex;
     justify-content: space-around;
     margin-top: var(--padding-medium);
+    flex-direction: column;
 }
 
 @keyframes fadeInModal {
@@ -973,7 +974,7 @@ button.secondary-button:hover:not(:disabled) {
     .contact-us-label-wrapper {
         font-size: 1em;
         transform: none; /* Disable initial transform for simplicity on mobile */
-        opacity: 1; /* Always visible on mobile to indicate presence if space permits */
+        opacity: 0; /* Always visible on mobile to indicate presence if space permits */
         pointer-events: auto; /* Allow interaction */
     }
      .contact-us-button {
@@ -991,3 +992,4 @@ button.secondary-button:hover:not(:disabled) {
         transform: none; /* Disable initial transform for simplicity on mobile */
     }
 }
+/* --- End: Contact Us Floating Button and Social Icons --- */
