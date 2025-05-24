@@ -1,6 +1,6 @@
 # 🌐 Fibananagucchi.github.io
 
-Test for qualifying and evaluating talents with the subsequent possibility of development and employment![image](https://github.com/user-attachments/assets/4b9b3fb6-9192-4708-8c77-d096409159d9)
+Test for qualifying and evaluating talents with the subsequent possibility of development and employment!
 
 ---
 
