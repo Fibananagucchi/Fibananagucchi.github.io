@@ -18,7 +18,7 @@
     <span class="current-questions" id="answeredCount">0</span> /
     <span class="total-questions" id="totalCount">60</span>
   </div>
-  <button class="main-button" onclick="resetTest()">Main Menu</button>
+  <button class="main-button" onclick="resetTest()">Menu</button>
   <div class="container">
     <h1>Vocate Test</h1>
     <p>Evaluate how much each statement describes your interests, on a scale from
@@ -37,8 +37,8 @@
             <button class="modal-cancel-button" id="cancelFinish">Cancel</button>
         </div>
     </div>
-  </div>
-  <div class="contact-us-container">
+</div>
+  <div class="contact-us-container" id="contactUsBut">
     <div class="contact-us-label-wrapper">
       <span class="arrow">→</span> Contact us
     </div>
@@ -71,7 +71,7 @@
         </a>
       </div>
       <div class="social-item">
-        <a href="https://mu.edu.ua" target="_blank">
+        <a href="https://mu.edu.ua/en" target="_blank">
           <div class="social-icon-wrapper">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-globe2"
               viewBox="0 0 16 16">
@@ -108,6 +108,7 @@
       const contactUsMainButton = document.getElementById('contactUsMainButton');
       const socialLinksContainer = document.querySelector('.social-links');
       const contactUsLabelWrapper = document.querySelector('.contact-us-label-wrapper');
+      const contactUsButton = document.getElementById('contuctUsBut');
 
       if (contactUsMainButton) {
         contactUsMainButton.addEventListener('click', () => {
@@ -162,12 +163,12 @@
 
       // Example: when user clicks "Submit" without all answers
       // You'll need to integrate this with your form validation logic
-      // document.getElementById('yourSubmitButton').addEventListener('click', (event) => {
-      //     if (thereAreUnansweredQuestions) { // Your condition here
-      //         event.preventDefault(); // Prevent default form submission
-      //         showConfirmationModal();
-      //     }
-      // });
+      document.getElementById('yourSubmitButton').addEventListener('click', (event) => {
+          if (thereAreUnansweredQuestions) { // Your condition here
+              event.preventDefault(); // Prevent default form submission
+              showConfirmationModal();
+          }
+      });
 
       if (confirmSendButton) {
         confirmSendButton.addEventListener('click', () => {
@@ -175,6 +176,7 @@
           console.log('Form submitted even with unanswered questions!');
           if (confirmationModal) confirmationModal.style.display = 'none';
           // You'll need to add your actual form submission logic here
+
         });
       }
 
@@ -191,7 +193,7 @@
       startPage.className = "page";
       startPage.id = "start-page";
       startPage.innerHTML = `
-        <h2>Welcome to the Vocate Test</h2>
+        <h2>Welcome to the "Vocate" Test</h2>
         <p>Discover your professional interests and explore matching career paths.</p>
         <button onclick="nextPage()">Start Test</button>
         <button onclick="window.location.href='courses.html'" class="secondary-button">View Courses</button>
@@ -284,6 +286,7 @@
     }
 
     function validateAndNextPage() {
+      
       if (currentPage >= 1 && currentPage <= totalQuestionPages) {
         const currentQuestionPage = document.getElementById(`question-page-${currentPage - 1}`);
         const questions = currentQuestionPage.querySelectorAll('.question');
@@ -306,6 +309,7 @@
         document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
         localStorage.setItem("currentPage", currentPage);
       }
+      document.getElementById("contactUsBut").style.display = "none";
     }
 
     function showResults(skipValidation = false) {
@@ -353,11 +357,13 @@
       `;
       resultsContainer.style.display = "block";
       resultsContainer.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById("contactUsBut").style.display = "flex";
     }
 
     function resetTest() {
       localStorage.clear();
       location.reload();
+      document.getElementById("contactUsBut").style.display = "flex";
     }
 
     function getCareersHtml(type) {
