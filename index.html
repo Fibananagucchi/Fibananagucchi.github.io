@@ -160,16 +160,7 @@
           confirmationModal.style.display = 'flex'; // Make it visible
         }
       }
-
-      // Example: when user clicks "Submit" without all answers
-      // You'll need to integrate this with your form validation logic
-      document.getElementById('yourSubmitButton').addEventListener('click', (event) => {
-          if (thereAreUnansweredQuestions) { // Your condition here
-              event.preventDefault(); // Prevent default form submission
-              showConfirmationModal();
-          }
-      });
-
+      
       if (confirmSendButton) {
         confirmSendButton.addEventListener('click', () => {
           // Logic to force submit the form (e.g., submitForm(true))
